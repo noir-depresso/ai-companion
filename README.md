@@ -1,3 +1,9 @@
+So almost everything except the recent changes (which aren't available to the github) are annotated with my comments. I've started this project in the summer (never uploaded to github) and the "days" aren't actually days, more like blocks/sessions, because it definitely takes more time to learn and debug everything then a day if I want to be able to learn from anything. This is my biggest non-game personal project that I intend to keep working on.
+
+There are some useless code here and there for testing purposes that may not have been properly deleted. this is still a work in progress.
+
+(everything below is generated and fact-checked)
+
 # AI Companion
 
 A local AI companion project built with Python, FastAPI, SQLite, and Ollama. Chat with Rin through a browser while the app tracks conversation history and changes to her emotional and relationship state.
@@ -52,3 +58,4 @@ The app creates `data/companion.db` on startup. Local databases and chat history
 ## Status
 
 An ongoing personal learning project intended for local use. Model names and defaults can be changed in `app/config.py`. Memory extraction and review are implemented; accepted memories are not currently included in the chat system prompt.
+

@@ -1,0 +1,329 @@
+<!--  yeah idk what this is... but this is a comment -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!--see this means chinese characters can be displayed properly too-->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Rin</title>
+    <link rel="stylesheet" href="/static/styles.css?v=20260817-1">
+    <!--this is a link. it uses the link provided and also you need to tell it that this is for stylesheets. this decorates buttons and stuff according to the style sheet-->
+</head>
+<!-- i guess this is the like the header??-->
+
+
+<body>
+    <main class="chat"> <!-- this means this object is of class "chat"-->
+        <header class="header">
+            <div>
+                <h1>Rin</h1>
+                <p>Local companion</p>
+            </div>
+            <div class="header-actions">
+                <button id="copy-all-button" type="button">
+                    Copy all
+                </button>
+                <button id="clear-history-button" type="button">
+                    Clear history
+                </button>
+            </div>
+            <!--this means its a paragraph-->
+        </header>
+
+        <section
+            id="messages"
+            class="messages"
+            aria-live="polite" 
+        ></section>
+        <!--an empty space for things to be put in-->
+
+
+
+
+        <p id="loading" class="loading hidden">
+            Rin is thinking...
+        </p>
+
+        <p id="response-meta" class="response-meta hidden"></p>
+
+        <p id="error" class="error hidden"></p>
+
+        <div class="settings">
+            <label for="temperature-input">
+                Temperature
+                <span id="temperature-value">--</span>
+            </label>
+            <input
+                id="temperature-input"
+                type="range"
+                disabled
+            >
+        </div>
+
+        <form id="chat-form" class="composer">
+            <textarea
+                id="message-input"
+                name="message"
+                rows="3"
+                placeholder="Message Rin..."
+                required
+            ></textarea>
+            <!--this is a submit type. so an event is detected?/made when a button around it is pressed or if enter is pressed-->
+            <button id="send-button" type="submit">
+                Send
+            </button>
+        </form>
+
+
+
+    </main>
+    <button
+    id="developer-toggle"
+    class="developer-toggle"
+    type="button"
+>
+    Developer
+</button>
+
+<section
+    id="developer-panel"
+    class="developer-panel hidden"
+>
+    <div class="developer-header">
+        <h2>Companion State</h2>
+
+        <button
+            id="developer-close"
+            type="button"
+            aria-label="Close developer panel"
+        >
+            ×
+        </button>
+    </div>
+
+    <div class="state-control">
+        <label for="trust-slider">
+            Trust:
+            <span id="trust-value">35</span>
+        </label>
+
+        <input
+            id="trust-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="35"
+        >
+    </div>
+
+    <div class="state-control">
+        <label for="closeness-slider">
+            Closeness:
+            <span id="closeness-value">20</span>
+        </label>
+
+        <input
+            id="closeness-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="20"
+        >
+    </div>
+
+    <div class="state-control">
+        <label for="respect-slider">
+            Respect:
+            <span id="respect-value">50</span>
+        </label>
+
+        <input
+            id="respect-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+        >
+    </div>
+
+    <div class="state-control">
+        <label for="comfort-slider">
+            Comfort:
+            <span id="comfort-value">25</span>
+        </label>
+
+        <input
+            id="comfort-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="25"
+        >
+    </div>
+
+    <div class="state-control">
+        <label for="mood-select">Mood</label>
+
+        <select id="mood-select">
+            <option value="neutral">Neutral</option>
+            <option value="annoyed">Annoyed</option>
+            <option value="soft">Soft</option>
+            <option value="stressed">Stressed</option>
+        </select>
+    </div>
+
+    <div class="state-control">
+        <label for="energy-slider">
+            Energy:
+            <span id="energy-value">70</span>
+        </label>
+
+        <input
+            id="energy-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="70"
+        >
+    </div>
+
+    <div class="state-control">
+        <label for="stress-slider">
+            Stress:
+            <span id="stress-value">15</span>
+        </label>
+
+        <input
+            id="stress-slider"
+            type="range"
+            min="0"
+            max="100"
+            value="15"
+        >
+    </div>
+
+    <div class="developer-actions">
+        <button id="save-state-button" type="button">
+            Save State
+        </button>
+
+        <button id="reset-state-button" type="button">
+            Reset
+        </button>
+
+        <button id="refresh-prompt-button" type="button">
+            Refresh Prompt
+        </button>
+    </div>
+
+    <p id="developer-status"></p>
+
+    <section class="developer-section" aria-labelledby="interaction-events-heading">
+        <div class="developer-section-header">
+            <div>
+                <h3 id="interaction-events-heading">State Change Log</h3>
+                <p id="interaction-event-count" class="section-meta">0 events</p>
+            </div>
+
+            <button id="refresh-events-button" type="button">
+                Refresh
+            </button>
+        </div>
+
+        <p id="interaction-event-status" class="section-status" aria-live="polite"></p>
+        <div id="interaction-event-list" class="interaction-event-list"></div>
+    </section>
+
+    <section class="developer-section" aria-labelledby="memory-system-heading">
+        <div class="memory-tabs-header">
+            <h3 id="memory-system-heading">Memory</h3>
+            <div class="memory-tabs" role="tablist" aria-label="Memory views">
+                <button
+                    id="candidate-tab-button"
+                    class="memory-tab active"
+                    type="button"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="candidate-tab-panel"
+                >Candidates</button>
+                <button
+                    id="memory-tab-button"
+                    class="memory-tab"
+                    type="button"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="memory-tab-panel"
+                >Memories</button>
+            </div>
+        </div>
+
+        <div id="candidate-tab-panel" role="tabpanel" aria-labelledby="candidate-tab-button">
+            <div class="developer-section-header memory-view-header">
+                <div>
+                    <h4>Memory Candidates</h4>
+                    <p id="memory-candidate-count" class="section-meta">0 candidates</p>
+                </div>
+
+                <div class="candidate-toolbar">
+                    <label class="sr-only" for="memory-candidate-filter">
+                        Candidate status
+                    </label>
+                    <select id="memory-candidate-filter">
+                        <option value="PENDING">Pending</option>
+                        <option value="ALL">All</option>
+                        <option value="ACCEPTED">Accepted</option>
+                        <option value="REJECTED">Rejected</option>
+                    </select>
+                    <button id="extract-memories-button" type="button">
+                        Extract Now
+                    </button>
+                    <button id="refresh-candidates-button" type="button">
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <p id="memory-candidate-status" class="section-status" aria-live="polite"></p>
+            <div id="memory-candidate-list" class="candidate-list"></div>
+        </div>
+
+        <div
+            id="memory-tab-panel"
+            class="hidden"
+            role="tabpanel"
+            aria-labelledby="memory-tab-button"
+        >
+            <div class="developer-section-header memory-view-header">
+                <div>
+                    <h4>Stored Memories</h4>
+                    <p id="memory-count" class="section-meta">0 memories</p>
+                </div>
+                <button id="refresh-memories-button" type="button">Refresh</button>
+            </div>
+
+            <p id="memory-status" class="section-status" aria-live="polite"></p>
+            <div id="memory-list" class="candidate-list"></div>
+        </div>
+    </section>
+
+    <section class="developer-section" aria-labelledby="prompt-preview-heading">
+        <h3 id="prompt-preview-heading">Prompt</h3>
+
+    <label for="prompt-preview">
+        Current system prompt
+    </label>
+
+    <textarea
+        id="prompt-preview"
+        rows="18"
+        readonly
+    ></textarea>
+    </section>
+</section>
+<!--loads the java script at this location-->
+<script src="/static/app.js?v=20260817-1"></script>
+</body>
+</html>

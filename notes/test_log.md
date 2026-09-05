@@ -1,0 +1,2 @@
+- never write things about the llm being a robot. or ever imply that. or else the personality will fall apart
+- 
